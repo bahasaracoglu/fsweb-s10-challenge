@@ -21,7 +21,7 @@ function localStorageStateOku(key) {
   return JSON.parse(localStorage.getItem(key));
 }
 
-function baslangicNotlariniGetir(key) {
+export function baslangicNotlariniGetir(key) {
   const eskiNotlar = localStorage.getItem(key);
 
   if (eskiNotlar) {
@@ -40,12 +40,15 @@ export const reducer = (state = baslangicDegerleri, action) => {
       };
       localStorageStateYaz(key, updatedState);
       return updatedState;
+
     case NOT_SIL:
       console.log(action.payload);
-      return {
+      const removedState = {
         ...state,
         notlar: state.notlar.filter((not) => not.id !== action.payload),
       };
+      localStorageStateYaz(key, removedState);
+      return removedState;
 
     default:
       return state;

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
 import { useDispatch } from "react-redux";
 import { notEkleAPI } from "../actions";
+import { baslangicNotlariniGetir } from "../reducers";
 
 export default function PostForm() {
   const {
@@ -15,6 +16,10 @@ export default function PostForm() {
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    baslangicNotlariniGetir();
+  }, []);
 
   function onSubmit(data) {
     const yeniNot = {
