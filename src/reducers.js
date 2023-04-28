@@ -1,5 +1,5 @@
 import { act } from "react-dom/test-utils";
-import { NOT_EKLE, NOT_SIL } from "./actions";
+import { NOT_EKLE, NOT_SIL, POST_LOADING, POST_SUCCESS } from "./actions";
 
 const baslangicDegerleri = {
   notlar: [
@@ -9,6 +9,8 @@ const baslangicDegerleri = {
       body: "Bugün hava çok güzel!|En iyi arkadaşımın en iyi arkadaşı olduğumu öğrendim :)|Kedim iyileşti!",
     },
   ],
+  loading: false,
+  success: false,
 };
 
 const key = "s10ch";
@@ -33,12 +35,21 @@ export function baslangicNotlariniGetir(key) {
 
 export const reducer = (state = baslangicDegerleri, action) => {
   switch (action.type) {
+    case POST_SUCCESS:
+      return { ...state, success: action.payload };
+
+    case POST_LOADING:
+      return { ...state, loading: action.payload };
+
     case NOT_EKLE:
       const updatedState = {
         ...state,
         notlar: [...state.notlar, JSON.parse(action.payload)],
+        loading: false,
+        success: true,
       };
       localStorageStateYaz(key, updatedState);
+
       return updatedState;
 
     case NOT_SIL:
