@@ -1,3 +1,6 @@
+import { act } from "react-dom/test-utils";
+import { NOT_EKLE } from "./actions";
+
 const s10chLocalStorageKey = "s10ch";
 
 const baslangicDegerleri = {
@@ -9,7 +12,20 @@ const baslangicDegerleri = {
     },
   ],
 };
-  
+
+export const reducer = (state = baslangicDegerleri, action) => {
+  switch (action.type) {
+    case NOT_EKLE:
+      return {
+        ...state,
+        notlar: [...state.notlar, JSON.parse(action.payload)],
+      };
+
+    default:
+      return state;
+  }
+};
+
 function localStorageStateYaz(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
@@ -24,6 +40,6 @@ function baslangicNotlariniGetir(key) {
   if (eskiNotlar) {
     return localStorageStateOku(key);
   } else {
-    return baslangicDegerleri
+    return baslangicDegerleri;
   }
 }
