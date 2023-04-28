@@ -8,7 +8,7 @@ export function notEkle(not) {
 }
 
 export function notSil(notId) {
-  // ...
+  return { type: NOT_SIL, payload: notId };
 }
 
 export const notEkleAPI = (yeniNot) => (dispatch) => {
@@ -16,7 +16,6 @@ export const notEkleAPI = (yeniNot) => (dispatch) => {
     .post("https://httpbin.org/anything", yeniNot)
     .then((res) => {
       if (res.status === 200) {
-        console.log("return", res);
         dispatch(notEkle(res.data.data));
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notEkle ile dispatch edin
       }
@@ -30,6 +29,8 @@ export const notSilAPI = (id) => (dispatch) => {
     .delete("https://httpbin.org/anything", { data: id })
     .then((res) => {
       if (res.status === 200) {
+        console.log(res.data);
+        dispatch(notSil(res.data.data));
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notSil ile dispatch edin
       }
     })

@@ -1,5 +1,5 @@
 import { act } from "react-dom/test-utils";
-import { NOT_EKLE } from "./actions";
+import { NOT_EKLE, NOT_SIL } from "./actions";
 
 const s10chLocalStorageKey = "s10ch";
 
@@ -19,6 +19,12 @@ export const reducer = (state = baslangicDegerleri, action) => {
       return {
         ...state,
         notlar: [...state.notlar, JSON.parse(action.payload)],
+      };
+    case NOT_SIL:
+      console.log(action.payload);
+      return {
+        ...state,
+        notlar: state.notlar.filter((not) => not.id !== action.payload),
       };
 
     default:
