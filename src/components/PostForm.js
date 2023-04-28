@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
 import { useDispatch, useSelector } from "react-redux";
-import { notEkleAPI, yuklendi } from "../actions";
-import { baslangicNotlariniGetir } from "../reducers";
+import { getNotesFromLocalStorage, notEkleAPI, yuklendi } from "../actions";
+
+import { notify } from "../notify";
 
 export default function PostForm() {
   const loading = useSelector((store) => store.loading);
   const success = useSelector((store) => store.success);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  //localStorage.clear();
   console.log("success:", success);
+
+  useEffect(() => {
+    dispatch(getNotesFromLocalStorage());
+  }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  useEffect(() => {
-    baslangicNotlariniGetir();
-  }, []);
-
   useEffect(() => {
     if (success === true) {
       history.push("/notlar");
+      notify("Not eklendi!");
       dispatch(yuklendi());
     }
   }, [success, history]);
@@ -47,8 +50,6 @@ export default function PostForm() {
     // toast mesajı gösterin
     // sonra aşağıdaki satırı aktifleştirin
     // setTimeout(() => history.push("/notlar"), 2000);
-
-    success && history.push("/notlar");
   }
 
   const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full";
@@ -98,13 +99,16 @@ export default function PostForm() {
           />
         </div>
 
-        <button
-          disabled={loading}
-          type="submit"
-          className="myButton disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Ekle
-        </button>
+        <div className="flex justify-between">
+          <button
+            disabled={loading}
+            type="submit"
+            className="myButton disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Ekle
+          </button>
+          {loading && <h2> Not Ekleniyor...</h2>}
+        </div>
       </form>
     </div>
   );

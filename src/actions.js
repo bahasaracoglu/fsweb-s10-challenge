@@ -5,6 +5,12 @@ export const NOT_SIL = "NOT_SIL";
 export const POST_SUCCESS = "POST_SUCCESS";
 export const POST_LOADING = "POST_LOADING";
 export const POST_ERROR = "POST_ERROR";
+export const GET_NOTES_FROM_LS = "GET_NOTES_FROM_LS";
+
+export function getNotesFromLocalStorage() {
+  console.log("here");
+  return { type: GET_NOTES_FROM_LS };
+}
 
 export function yuklendi() {
   return { type: POST_SUCCESS, payload: false };
@@ -34,12 +40,14 @@ export const notEkleAPI = (yeniNot) => (dispatch) => {
 
 export const notSilAPI = (id) => (dispatch) => {
   console.log(id);
+  dispatch({ type: POST_LOADING, payload: true });
   axios
     .delete("https://httpbin.org/anything", { data: id })
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
         dispatch(notSil(res.data.data));
+        dispatch({ type: POST_LOADING, payload: false });
         // res.data objesi içerisinden ihtiyaç duyduğunuz değeri bulun ve oluşturduğunuz notSil ile dispatch edin
       }
     })

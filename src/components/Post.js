@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
-import { useDispatch } from "react-redux";
-import { notSilAPI } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { notSilAPI, yuklendi } from "../actions";
+import { useHistory } from "react-router";
 
 export default function Post({ item }) {
   const dispatch = useDispatch();
+  const loading = useSelector((store) => store.loading);
+  const success = useSelector((store) => store.success);
+  const history = useHistory();
 
-  function handleSil() {
+  useEffect(() => {
+    if (success === true) {
+      dispatch(yuklendi());
+    }
+  }, [success, history]);
+
+  function handleSil(e) {
+    e.preventDefault();
     dispatch(notSilAPI(item.id));
     // burada ilgili eylemi dispatch edin
     // sonra toast mesajı gösterin
@@ -27,13 +38,15 @@ export default function Post({ item }) {
           - {li}
         </p>
       ))}
-
-      <button
-        className="text-xs text-amber-600 mt-4 underline"
-        onClick={handleSil}
-      >
-        Bu notu sil
-      </button>
+      <div className="flex justify-between">
+        <button
+          disabled={loading}
+          className="text-xs text-amber-600 mt-4 underline disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handleSil}
+        >
+          Bu notu sil
+        </button>
+      </div>
     </div>
   );
 }
