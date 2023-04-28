@@ -9,7 +9,7 @@ const baslangicDegerleri = {
     },
   ],
 };
-
+  
 function localStorageStateYaz(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
