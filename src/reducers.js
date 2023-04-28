@@ -59,7 +59,7 @@ export const reducer = (state = baslangicDegerleri, action) => {
     case NOT_EKLE:
       const updatedState = {
         ...state,
-        notlar: [...state.notlar, JSON.parse(action.payload)],
+        notlar: [JSON.parse(action.payload), ...state.notlar],
         loading: false,
         success: true,
       };
