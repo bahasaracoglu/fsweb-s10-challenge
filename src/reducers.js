@@ -4,6 +4,7 @@ import {
   NOT_SIL,
   POST_LOADING,
   POST_SUCCESS,
+  TUMUNU_SIL,
 } from "./actions";
 import { notify } from "./notify";
 
@@ -49,6 +50,7 @@ export const reducer = (state = baslangicDegerleri, action) => {
         localStorageStateYaz(key, state.notlar);
         return state;
       }
+      break;
 
     case POST_SUCCESS:
       return { ...state, success: action.payload };
@@ -77,6 +79,12 @@ export const reducer = (state = baslangicDegerleri, action) => {
       localStorageStateYaz(key, removedState.notlar);
       notify("Not silindi!");
       return removedState;
+
+    case TUMUNU_SIL:
+      const removedAllState = { ...state, notlar: [] };
+      localStorageStateYaz(key, []);
+      notify("Tüm notlar silindi!");
+      return removedAllState;
 
     default:
       return state;

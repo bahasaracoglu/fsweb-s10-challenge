@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Post from "./Post";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotesFromLocalStorage } from "../actions";
+import { getNotesFromLocalStorage, tumunuSil } from "../actions";
 
 const PostList = () => {
   const loading = useSelector((store) => store.loading);
@@ -17,6 +17,12 @@ const PostList = () => {
     <div className="beyazKutu text-center p-6">Hiç notunuz yok</div>
   ) : (
     <div>
+      <button
+        onClick={() => dispatch(tumunuSil())}
+        className=" transition-all px-3 py-2 block text-sm rounded bg-rose-700 text-white mb-3 "
+      >
+        Tümünü Sil
+      </button>
       {notlar.map((not) => (
         <Post item={not} key={not.id} />
       ))}

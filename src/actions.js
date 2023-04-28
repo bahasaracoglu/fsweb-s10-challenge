@@ -6,6 +6,7 @@ export const POST_SUCCESS = "POST_SUCCESS";
 export const POST_LOADING = "POST_LOADING";
 export const POST_ERROR = "POST_ERROR";
 export const GET_NOTES_FROM_LS = "GET_NOTES_FROM_LS";
+export const TUMUNU_SIL = "TUMUNU_SIL";
 
 export function getNotesFromLocalStorage() {
   console.log("here");
@@ -22,6 +23,10 @@ export function notEkle(not) {
 
 export function notSil(notId) {
   return { type: NOT_SIL, payload: notId };
+}
+
+export function tumunuSil() {
+  return { type: TUMUNU_SIL };
 }
 
 export const notEkleAPI = (yeniNot) => (dispatch) => {
